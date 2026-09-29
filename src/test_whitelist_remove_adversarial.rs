@@ -96,7 +96,11 @@ fn whitelist_remove_emits_wl_rem_event() {
     let found = events.iter().any(|(_, topics, _)| {
         topics
             .get(0)
-            .map(|v| Symbol::try_from_val(&env, &v).map(|s| s == symbol_short!("wl_rem")).unwrap_or(false))
+            .map(|v| {
+                Symbol::try_from_val(&env, &v)
+                    .map(|s| s == symbol_short!("wl_rem"))
+                    .unwrap_or(false)
+            })
             .unwrap_or(false)
     });
     assert!(found, "expected a wl_rem event to be emitted");
